@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: wandertrail-user-service
+  security:
+    user:
+      name: 
+      password:
+    # enabled: false
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false

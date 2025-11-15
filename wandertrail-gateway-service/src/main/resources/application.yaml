@@ -1,3 +1,36 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: wandertrail-gateway-service
+  
+  cloud:
+    # Đăng kí user service với Consul
+    consul:
+        host: localhost
+        port: 8500
+        discovery:
+          enabled: true
+    # Cấu hình API Gateway
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://wandertrail-user-service
+          predicates:
+            - Path=/api/v1/users/**
+            - Path=/api/v1/auth/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: false
+            
+      
+          

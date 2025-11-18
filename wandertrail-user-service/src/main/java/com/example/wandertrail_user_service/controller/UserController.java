@@ -21,12 +21,16 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000") // Chỉ dùng cho phát triển front-end local
 public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+    @GetMapping("/test")
+    public String test() {
+        return "Test endpoint is working";
     }
 
     @GetMapping

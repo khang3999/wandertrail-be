@@ -21,8 +21,10 @@ public class GatewaySecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 // .cors(Customizer.withDefaults())
+                .cors(cors -> cors.disable())
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/actuator/health").permitAll()
+                        .pathMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/test", "/actuator/health").permitAll()
+                        .pathMatchers(org.springframework.http.HttpMethod.OPTIONS).permitAll() // CHO PHÉP OPTIONS
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwtSpec -> jwtSpec.jwtDecoder(jwtDecoder)));

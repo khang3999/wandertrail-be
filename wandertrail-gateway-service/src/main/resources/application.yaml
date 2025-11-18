@@ -18,10 +18,12 @@ spring:
       discovery:
         enabled: true
         register: true
+        hostname: localhost
+        port: ${server.port}
         service-name: ${spring.application.name}
-        health-check-path: /actuator/health
-        health-check-interval: 30s
-        hostname: host.docker.internal
+        health-check-url: http://host.docker.internal:${server.port}/actuator/health
+        health-check-interval: 15s
+        health-check-timeout: 10s
       config:
         enabled: true
         prefixes: 
@@ -32,8 +34,6 @@ spring:
         default-context: application # This is default context use for all services user Consul config
         profile-separator: ','
 
-            
-          
     # Cấu hình API Gateway
     gateway:
       server:
@@ -42,24 +42,20 @@ spring:
             locator:
               enabled: false
               lower-case-service-id: true
-          globalcors:
-            corsConfigurations:
-              '[/**]':
-                allowedOrigins: "*"
-                allowedMethods: "*"
-                allowedHeaders: "*"
-                allowCredentials: false
           routes:
             - id: user-service
               uri: lb://wandertrail-user-service
+              # uri: http://localhost:8081
               predicates:
-                - Path=/api/v1/users/**
-                - Path=/api/v1/auth/**
-         
+                - Path=/api/v1/users/**, /api/v1/auth/**
+              filters:
+                - StripPrefix=0
 management:
   endpoints:
     web:
       exposure:
         include: health, info
-      
+# logging:
+#   level:
+#     org.springframework.cloud.gateway: DEBUG
           

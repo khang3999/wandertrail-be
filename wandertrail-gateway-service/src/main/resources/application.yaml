@@ -1,3 +1,65 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: wandertrail-gateway-service
+    
+  config:
+    import: "optional:consul:"
+  
+  cloud:
+    # Đăng kí gateway service với Consul
+    consul:
+      # Địa chỉ của Consul agent chạy trên docker 
+      host: localhost
+      # Port mặc định của Consul trong docker
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
+        service-name: ${spring.application.name}
+        health-check-path: /actuator/health
+        health-check-interval: 30s
+        hostname: host.docker.internal
+      config:
+        enabled: true
+        prefixes: 
+          - config #default Spring auto find /config so key starts with config/
+          # - keys # additional prefix keys
+        # name: ${spring.application.name}
+        format: YAML
+        default-context: application # This is default context use for all services user Consul config
+        profile-separator: ','
+
+            
+          
+    # Cấu hình API Gateway
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: false
+              lower-case-service-id: true
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins: "*"
+                allowedMethods: "*"
+                allowedHeaders: "*"
+                allowCredentials: false
+          routes:
+            - id: user-service
+              uri: lb://wandertrail-user-service
+              predicates:
+                - Path=/api/v1/users/**
+                - Path=/api/v1/auth/**
+         
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+      
+          

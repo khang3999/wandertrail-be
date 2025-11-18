@@ -1,5 +1,5 @@
 services:
-  postgres:
+  user-service-db:
     image: 'postgres:latest'
     container_name: 'wandertrail-user-service-db'
     environment:
@@ -8,10 +8,9 @@ services:
       - 'POSTGRES_USER=root'
     ports:
       - "5432:5432"
-  # rabbitmq:
-  #   image: 'rabbitmq:latest'
-  #   environment:
-  #     - 'RABBITMQ_DEFAULT_PASS=secret'
-  #     - 'RABBITMQ_DEFAULT_USER=myuser'
-  #   ports:
-  #     - '5672'
+    volumes:
+      - user_service_db_data:/var/lib/postgresql
+    networks:
+      - microservices-net
+volumes:
+  user_service_db_data:

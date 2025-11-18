@@ -1,14 +1,50 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: wandertrail-user-service
-  security:
-    user:
-      name: 
-      password:
-    # enabled: false
+  config:
+    import: "optional:consul:"
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wandertrail-user-service-db
+    username: root
+    password: 123456
+    driver-class-name: org.postgresql.Driver
 
-eureka:
-  client:
-    enabled: false
-    register-with-eureka: false
-    fetch-registry: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
+        service-name: ${spring.application.name}
+        health-check-path: /actuator/health
+        health-check-interval: 30s
+        hostname: host.docker.internal
+      config:
+        enabled: false
+        prefixes: 
+          - config 
+        format: YAML
+        default-context: application # This is default context use for all services user Consul config
+        profile-separator: ','
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  # health:
+  #   db:
+  #     enabled: false
+# Profiles (nếu muốn tách dev/prod)
+# spring:
+#   profiles:
+#     active: dev

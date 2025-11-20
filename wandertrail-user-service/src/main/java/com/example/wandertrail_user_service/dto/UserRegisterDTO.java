@@ -1,14 +1,19 @@
 package com.example.wandertrail_user_service.dto;
 
+import com.example.wandertrail_user_service.entity.User;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserRegisterDTO {
     @NotBlank(message = "Username is required")
@@ -26,4 +31,8 @@ public class UserRegisterDTO {
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String email;
+
+    @NotNull(message = "Role is required")
+    @Enumerated(EnumType.STRING)
+    private User.Role role;
 }

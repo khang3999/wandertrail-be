@@ -20,9 +20,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="role", discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,9 +33,16 @@ public abstract class User {
     private String password;
     private String phone;
     private String avatar;
+    // @Enumerated(EnumType.STRING)
+    // private Role role;
     @Column(name = "card_number_id")
     private String cardNumberId;
 
     // Methods
     public abstract String getRole();
+
+    public enum Role {
+        PERSONAL,
+        BUSINESS
+    }
 }

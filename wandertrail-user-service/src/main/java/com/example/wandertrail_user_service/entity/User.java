@@ -29,20 +29,23 @@ public abstract class User {
     private String id;
 
     private String username;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
     private String phone;
-    private String avatar;
+    @Column(name = "avatar_url")
+    private String avatarUrl;
     // @Enumerated(EnumType.STRING)
     // private Role role;
     @Column(name = "card_number_id")
     private String cardNumberId;
 
     // Methods
-    public abstract String getRole();
+    public abstract Role getRole();
 
     public enum Role {
         PERSONAL,
-        BUSINESS
+        BUSINESS,
+        ADMIN
     }
 }

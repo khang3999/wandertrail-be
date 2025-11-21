@@ -14,7 +14,7 @@ public class BusinessUser extends User {
     @Column(name = "business_license_id")
     private String businessLicenseId;
     @Override
-    public String getRole() {
-        return "BUSINESS";
+    public User.Role getRole() {
+        return User.Role.BUSINESS;
     }
 }

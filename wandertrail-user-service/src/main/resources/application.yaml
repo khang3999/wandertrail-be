@@ -14,10 +14,6 @@ spring:
     password: 123456
     driver-class-name: org.postgresql.Driver
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
   cloud:
     consul:
       host: localhost
@@ -38,6 +34,15 @@ spring:
         format: YAML
         default-context: application # This is default context use for all services user Consul config
         profile-separator: ','
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  # flyway:
+  #   enabled: true
+  #   locations: classpath:db/migration
+  #   baseline-on-migrate: true # Flyway chưa chạy lần nào nhưng đã có db
+
 
 management:
   endpoints:

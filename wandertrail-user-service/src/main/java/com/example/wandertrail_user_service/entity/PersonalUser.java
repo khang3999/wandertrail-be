@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("PERSONAL")
 public class PersonalUser extends User {
     @Override
-    public String getRole() {
-        return "PERSONAL";
+    public User.Role getRole() {
+        return User.Role.PERSONAL;
     }
 }

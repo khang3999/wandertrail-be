@@ -1,4 +1,4 @@
-package com.example.wandertrail_user_service.dto;
+package com.example.wandertrail_user_service.dto.request;
 
 import com.example.wandertrail_user_service.entity.User;
 
